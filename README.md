@@ -1,164 +1,285 @@
-# AI Assessment MVP - Complete Student Assessment App
+<div align="center">
 
-**Video Demo:** [complete student assessment app.mp4](./complete%20student%20assessment%20app.mp4)
+# 🎓 AI Assessment MVP
 
-## Gallery
+<p align="center">
+  <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI"/>
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React"/>
+  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript"/>
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"/>
+  <img src="https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase"/>
+  <img src="https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white" alt="OpenAI"/>
+</p>
 
-![Screenshot 1](./images/1.png)
-![Screenshot 2](./images/2.png)
-![Screenshot 3](./images/3.png)
-![Screenshot 4](./images/4.png)
-![Screenshot 5](./images/5.png)
+<p align="center">
+  <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind"/>
+  <img src="https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E" alt="Vite"/>
+  <img src="https://img.shields.io/badge/LangGraph-FF6B6B?style=for-the-badge&logo=chainlink&logoColor=white" alt="LangGraph"/>
+  <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="MIT License"/>
+</p>
 
-## Overview
+<br/>
 
-This is a full-stack AI-powered student assessment application that enables teachers to create, manage, and grade student assessments automatically using AI agents. Students can complete assessments and receive instant feedback.
+> **A full-stack AI-powered assessment platform where teachers generate intelligent quizzes and students receive instant, personalized feedback — all powered by agentic AI workflows.**
 
-## Project Structure
+<br/>
+
+[🚀 Features](#-features) · [🏗️ Architecture](#-architecture) · [⚡ Quick Start](#-quick-start) · [📡 API Reference](#-api-reference) · [🗄️ Database](#-database)
+
+</div>
+
+---
+
+## 🌟 Features
+
+<table>
+<tr>
+<td width="50%">
+
+### 👨‍🏫 For Teachers
+- 📝 **AI Assessment Generation** — Upload a PDF/DOCX/TXT or just provide a topic title and let AI generate MCQs and short-answer questions
+- ⚙️ **Full Control** — Set exact question counts (1–20 MCQs, 1–10 short answers)
+- 👥 **Student Enrollment** — Enroll students by email or ID
+- 📊 **Results Dashboard** — View per-student scores, breakdowns, and AI feedback
+
+</td>
+<td width="50%">
+
+### 🎓 For Students
+- 📋 **Clean Assessment UI** — Distraction-free MCQ + short answer experience
+- ⏱️ **Instant AI Grading** — Semantic scoring of short answers in real time
+- 💬 **Personalized Feedback** — Strengths, weaknesses, recommendations, and grade labels
+- 📈 **Progress Tracking** — History of all past submissions and scores
+
+</td>
+</tr>
+</table>
+
+---
+
+## 🏗️ Architecture
 
 ```
 ai-assessment-mvp/
-├── backend/           # Python FastAPI backend
-│   ├── agents/        # AI scoring and generation agents
-│   ├── api/           # API endpoints (student, teacher, users)
-│   ├── services/      # Database and extraction services
-│   ├── core/          # Configuration and schema
-│   └── main.py        # Application entry point
-└── frontend/          # React + TypeScript frontend
-    ├── src/
-    │   ├── components/  # React components
-    │   ├── pages/       # Page components
-    │   ├── hooks/       # Custom React hooks
-    │   └── lib/         # Utilities and API client
-    └── public/          # Static assets
+├── 🐍 backend/
+│   ├── agents/
+│   │   ├── generation_agent.py   # LangGraph parallel MCQ + short answer generation
+│   │   └── scoring_agent.py      # LangGraph semantic scoring pipeline
+│   ├── api/
+│   │   ├── teacher.py            # Teacher endpoints
+│   │   ├── student.py            # Student endpoints
+│   │   └── user.py               # User CRUD
+│   ├── services/
+│   │   └── database.py           # Supabase client + all DB helpers
+│   ├── core/
+│   │   └── config.py             # Environment config
+│   └── main.py                   # FastAPI app entry point
+│
+└── ⚛️  frontend/
+    └── src/
+        ├── components/           # Reusable UI components
+        ├── pages/                # Route-level page components
+        ├── hooks/                # Custom React hooks
+        └── lib/                  # API client + utilities
 ```
 
-## Features
+### 🤖 AI Agent Pipelines
 
-- **AI-Powered Assessment Generation** - Automatically generate assessments using AI agents
-- **Intelligent Scoring** - AI-based automatic grading of student responses
-- **Dual Role Support** - Separate interfaces for students and teachers
-- **MCQ & Short Answer Support** - Multiple choice questions and short answer assessments
-- **Real-time Results** - Instant feedback and score reports
-- **Student Dashboard** - View progress and assessment history
-- **Teacher Dashboard** - Manage students and assessments
+**Generation Agent** (LangGraph — parallel)
+```
+analyze_material → decide_strategy → ┌─ generate_mcqs
+                                     └─ generate_short_answers
+                                              ↓
+                                       join_questions → validate → finalize
+```
 
-## Getting Started
+**Scoring Agent** (LangGraph — sequential)
+```
+route_scoring_task → score_mcq → score_short_answers → aggregate → generate_feedback → finalize
+```
 
-### Backend Setup
+---
 
-1. Navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
+## ⚡ Quick Start
 
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+### Prerequisites
 
-3. Configure environment variables:
-   ```bash
-   cp .env.example .env
-   ```
+![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)
+![Node](https://img.shields.io/badge/Node-18+-green?logo=node.js&logoColor=white)
+![Bun](https://img.shields.io/badge/Bun-latest-black?logo=bun&logoColor=white)
 
-4. Run the development server:
-   ```bash
-   python main.py
-   ```
+### 🐍 Backend Setup
 
-The backend will be available at `http://localhost:8000`
+```bash
+# 1. Navigate to backend
+cd backend
 
-### Frontend Setup
+# 2. Create virtual environment
+python -m venv .venv
+source .venv/bin/activate      # Windows: .venv\Scripts\activate
 
-1. Navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
+# 3. Install dependencies
+pip install -r requirements.txt
 
-2. Install dependencies:
-   ```bash
-   bun install
-   ```
+# 4. Configure environment
+cp .env.example .env
+# Edit .env with your keys (see Environment Variables section)
 
-3. Run the development server:
-   ```bash
-   bun run dev
-   ```
+# 5. Start the server
+python main.py
+```
 
-The frontend will be available at `http://localhost:5173`
+> 🟢 Backend runs at **http://localhost:8000**
+> 📖 API docs at **http://localhost:8000/docs**
 
-## API Documentation
+### ⚛️ Frontend Setup
 
-### Student Endpoints
-- `GET /api/student/assessments` - Get student's available assessments
-- `POST /api/student/submit` - Submit assessment response
+```bash
+# 1. Navigate to frontend
+cd frontend
 
-### Teacher Endpoints
-- `GET /api/teacher/students` - Get teacher's students list
-- `POST /api/teacher/create-assessment` - Create new assessment
-- `GET /api/teacher/results` - Get assessment results
+# 2. Install dependencies
+bun install
 
-### User Endpoints
-- `POST /api/users/login` - User authentication
-- `POST /api/users/register` - User registration
+# 3. Start dev server
+bun run dev
+```
 
-## Technology Stack
+> 🟢 Frontend runs at **http://localhost:5173**
+
+---
+
+## 🔑 Environment Variables
+
+Create `backend/.env`:
+
+```env
+# Supabase
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_KEY=your_service_role_key
+
+# OpenAI
+OPENAI_API_KEY=sk-your-openai-key
+
+# Models
+MAIN_MODEL=gpt-4o-mini          # Used for question generation and scoring
+DECISION_MODEL=gpt-4.1-nano     # Used for routing and strategy decisions
+```
+
+---
+
+## 📡 API Reference
+
+### 👤 User Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/users` | Register new teacher or student |
+| `GET` | `/api/users` | List all users (optional `?role=teacher`) |
+| `GET` | `/api/users/{id}` | Get user by ID |
+| `GET` | `/api/users/by-email` | Lookup user by email |
+
+### 👨‍🏫 Teacher Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/teacher/topics` | Create topic + upload material |
+| `GET` | `/api/teacher/topics` | List all topics |
+| `GET` | `/api/teacher/topics/{id}` | Topic detail + assessment |
+| `POST` | `/api/teacher/topics/{id}/generate-assessment` | Trigger AI generation |
+| `PATCH` | `/api/teacher/topics/{id}/status` | Update topic status |
+| `POST` | `/api/teacher/topics/{id}/enroll` | Enroll student by ID |
+| `POST` | `/api/teacher/topics/{id}/enroll-by-email` | Enroll student by email |
+| `GET` | `/api/teacher/topics/{id}/enrolled-students` | List enrolled students |
+| `GET` | `/api/teacher/topics/{id}/results` | All submissions + stats |
+| `GET` | `/api/teacher/dashboard` | Teacher dashboard summary |
+
+### 🎓 Student Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/student/topics` | Get enrolled topics |
+| `GET` | `/api/student/topics/{id}/assessment` | Get assessment (answers stripped) |
+| `POST` | `/api/student/submit` | Submit answers |
+| `GET` | `/api/student/submissions/{id}` | Poll for scoring result |
+| `GET` | `/api/student/results` | All past submissions |
+| `GET` | `/api/student/dashboard` | Student dashboard |
+
+> ⚠️ **Note:** Assessment generation and scoring are **async**. Poll the relevant endpoint every 5 seconds until `generation_status` or `scoring_status` is `"completed"`.
+
+---
+
+## 🗄️ Database
+
+**Supabase (PostgreSQL)** with 5 tables:
+
+```
+users ──────────────────────────────────┐
+  │                                     │
+  │ (teacher_id)                        │ (student_id)
+  ▼                                     │
+topics ──────────────────────────────── │ ─── enrollments
+  │                                     │
+  │ (topic_id)                          │
+  ▼                                     ▼
+assessments ────────────────────── submissions
+  │                (assessment_id)      │
+  └─────────────────────────────────────┘
+```
+
+| Table | Purpose |
+|-------|---------|
+| `users` | Teachers and students |
+| `topics` | Teacher-created topics with optional material |
+| `assessments` | AI-generated questions + marks (one per topic) |
+| `enrollments` | Student ↔ Topic membership |
+| `submissions` | Student answers + AI scores + feedback |
+
+To set up or repair FK links, run `fix_schema.sql` in Supabase SQL Editor.
+
+---
+
+## 🛠️ Tech Stack
 
 ### Backend
-- **Python 3.x**
-- **FastAPI** - Web framework
-- **SQLite/SQL Database** - Data persistence
-- **AI Agents** - Assessment generation and scoring
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)
+![LangGraph](https://img.shields.io/badge/LangGraph-FF6B6B?logo=chainlink&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?logo=supabase&logoColor=white)
+![OpenAI](https://img.shields.io/badge/OpenAI_GPT--4o--mini-412991?logo=openai&logoColor=white)
+![Pydantic](https://img.shields.io/badge/Pydantic-E92063?logo=pydantic&logoColor=white)
 
 ### Frontend
-- **React 18+**
-- **TypeScript** - Type safety
-- **Vite** - Build tool
-- **Tailwind CSS** - Styling
-- **React Router** - Navigation
+![React](https://img.shields.io/badge/React_18-20232A?logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-B73BFE?logo=vite&logoColor=FFD62E)
+![Tailwind](https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwind-css&logoColor=white)
+![React Router](https://img.shields.io/badge/React_Router-CA4245?logo=react-router&logoColor=white)
 
-## Development
+---
 
-### Run Tests (Frontend)
-```bash
-cd frontend
-bun run test
-```
-
-### Code Quality
-The project uses:
-- ESLint for JavaScript/TypeScript linting
-- TypeScript for type checking
-
-## Database
-
-The application uses SQLite with a schema defined in `backend/core/schema.sql`. To initialize the database:
+## 🤝 Contributing
 
 ```bash
-sqlite3 assessment.db < backend/core/schema.sql
+# 1. Fork the repo and create your branch
+git checkout -b feature/your-feature
+
+# 2. Make your changes and commit
+git commit -am 'Add your feature'
+
+# 3. Push and open a Pull Request
+git push origin feature/your-feature
 ```
 
-## Environment Variables
+---
 
-Create a `.env` file in the backend directory with:
-```
-DATABASE_URL=sqlite:///./assessment.db
-API_KEY=your_api_key_here
-SECRET_KEY=your_secret_key_here
-```
+## 📄 License
 
-## Contributing
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
 
-1. Create a feature branch (`git checkout -b feature/improvement`)
-2. Commit your changes (`git commit -am 'Add improvement'`)
-3. Push to the branch (`git push origin feature/improvement`)
-4. Create a Pull Request
+---
 
-## License
+<div align="center">
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+Built with ❤️ using **FastAPI** + **LangGraph** + **React**
 
-## Support
-
-For issues, bugs, or questions, please open an issue in the project repository.
+</div>
