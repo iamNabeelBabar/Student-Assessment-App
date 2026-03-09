@@ -2,6 +2,14 @@
 
 **Video Demo:** [complete student assessment app.mp4](./complete%20student%20assessment%20app.mp4)
 
+## Gallery
+
+![Screenshot 1](./images/1.png)
+![Screenshot 2](./images/2.png)
+![Screenshot 3](./images/3.png)
+![Screenshot 4](./images/4.png)
+![Screenshot 5](./images/5.png)
+
 ## Overview
 
 This is a full-stack AI-powered student assessment application that enables teachers to create, manage, and grade student assessments automatically using AI agents. Students can complete assessments and receive instant feedback.
