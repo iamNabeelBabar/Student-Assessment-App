@@ -1,0 +1,20 @@
+# uv
+.venv/
+.python-version
+uv.lock
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# Env
+.env
+
+# IDE
+.vscode/
+.idea/
